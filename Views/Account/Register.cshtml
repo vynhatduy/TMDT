@@ -1,0 +1,69 @@
+﻿@model TMDT.Models.Resquest.RegistModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<h2>Đăng ký</h2>
+
+<form asp-action="Register" asp-controller="Account" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", id = "HoTen", required = "required", placeholder = "Họ tên" })
+        @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Giới tính")
+        <div>
+            @Html.RadioButtonFor(m => m.GioiTinh, true) Nam
+            @Html.RadioButtonFor(m => m.GioiTinh, false) Nữ
+        </div>
+        @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", id = "DiaChi", required = "required", placeholder = "Địa chỉ" })
+        @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.SDT, new { @class = "form-control", id = "SDT", required = "required", placeholder = "Số điện thoại" })
+        @Html.ValidationMessageFor(m => m.SDT, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ngày sinh")
+        @Html.TextBoxFor(m => m.NgaySinh, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "NgaySinh", type = "date" })
+        @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", id = "Username", required = "required", placeholder = "Tài khoản" })
+        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "Password", required = "required", placeholder = "Mật khẩu" })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword", required = "required", placeholder = "Nhập lại mật khẩu" })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Đăng ký</button>
+    </div>
+
+    @* Hiển thị thông báo lỗi nếu có *@
+    @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+    {
+        <p style="color: red;">@ViewData["ErrorMessage"]</p>
+    }
+
+    <div>
+        <a asp-action="Login" asp-controller="Account">Bạn đã có tài khoản? Đăng nhập ngay</a>
+    </div>
+</form>

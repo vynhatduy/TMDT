@@ -1,0 +1,80 @@
+﻿@model TMDT.Models.Response.User.UserHomePageModel
+
+<h2>Trang chủ</h2>
+<div id="banner">
+    @if (Model?.Banners != null && Model.Banners.Any())
+    {
+        foreach (var item in Model.Banners)
+        {
+            <a href="@item.Link">
+                <img src="@Url.Action("GetImage", "GetObj", new { imagePath = item.HinhAnh })" alt="Banner" />
+            </a>
+        }
+    }
+    else
+    {
+        <p>Hiện tại chưa có banner nào</p>
+    }
+</div>
+
+<div id="filter">
+    <label for="categorySelect">Lọc theo danh mục:</label>
+    <select id="categorySelect">
+        <option value="">Tất cả</option>
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.IDDanhMuc">@category.Ten</option>
+        }
+    </select>
+</div>
+
+<div id="product-list">
+    <!-- Danh sách sản phẩm -->
+    @await Html.PartialAsync("_ProductList", Model)
+</div>
+
+@if (Model.Products != null && Model.Products.Count < 100)
+{
+    <button id="load-more" class="btn btn-primary">Tải thêm sản phẩm</button>
+}
+
+<div id="categories">
+    <h3>Danh mục</h3>
+    @if (Model?.Categories != null && Model.Categories.Any())
+    {
+        <ul>
+            @foreach (var item in Model.Categories)
+            {
+                <li>
+                    <div>
+                        <img src="@Url.Action("GetImage", "GetObj", new { imagePath = item.HinhAnh })" alt="@item.Ten" />
+                        <h6>@item.Ten</h6>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Hiện tại chưa có danh mục nào</p>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            var selectedCategory = this.value;
+            fetch('@Url.Action("FilterByCategory", "UserHomePage")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ categoryId: selectedCategory })
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('product-list').innerHTML = html;
+            });
+        });
+    </script>
+}

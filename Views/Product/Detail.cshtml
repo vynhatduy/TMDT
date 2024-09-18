@@ -1,0 +1,64 @@
+﻿@model TMDT.Models.Response.User.UserProductDetailModel
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    Layout = "_Layout";
+}
+
+<h2>Chi Tiết sản phẩm</h2>
+
+@if (Model != null)
+{
+    <h2>@Model.Ten</h2>
+    <div>
+        <img src="@Url.Action("GetImage", "GetObj", new { imagePath = Model.HinhAnh })" alt="@Model.Ten" style="width: 300px; height: auto;" />
+        <p>@Model.MoTa</p>
+        <p>Giá: @Model.GiaBan.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+        <p>Số lượng còn lại: @Model.SoLuong</p>
+        <p>Đã bán: @Model.DaBan</p>
+        <p>Loại: @Model.TenLoai</p>
+    </div>
+
+    <!-- Phần đánh giá -->
+    <div>
+        <button id="toggleReviewsButton" class="btn btn-primary">
+            <i class="fas fa-comments"></i> Xem đánh giá
+        </button>
+        <div id="reviewsSection" style="display: none;">
+            @if (Model.DanhGias != null && Model.DanhGias.Any())
+            {
+                <h3>Đánh giá</h3>
+                @foreach (var review in Model.DanhGias)
+                {
+                    <div class="review">
+                        <img src="@Url.Action("GetImage", "GetObj", new { imagePath = review.HinhAnh })" alt="Review Image" style="width: 100px; height: auto;" />
+                        <h4>@review.TieuDe</h4>
+                        <p>@review.ChiTiet</p>
+                        <p>Đánh giá: @review.Sao sao</p>
+                        <p>Người dùng: @review.UID</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Chưa có đánh giá nào.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Thêm jQuery từ thư viện của ASP.NET Core -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#toggleReviewsButton').click(function () {
+                var $reviewsSection = $('#reviewsSection');
+                $reviewsSection.slideToggle(); // Sử dụng slideToggle() để có hiệu ứng
+                $(this).text($reviewsSection.is(':visible') ? 'Ẩn đánh giá' : 'Xem đánh giá');
+            });
+        });
+    </script>
+}
+else
+{
+    <p>Không tìm thấy nội dung yêu cầu</p>
+}

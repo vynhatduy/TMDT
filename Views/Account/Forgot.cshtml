@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Quên mật khẩu";
+}
+
+<h2>Quên mật khẩu</h2>
+
+<form asp-action="Forgot" method="post">
+    <div>
+        <input id="username" name="username" type="text" required placeholder="Tài khoản" />
+    </div>
+    <div>
+        <input id="sdt" name="sdt" type="tel" required placeholder="Số điện thoại" />
+    </div>
+    <button id="btnForgot" type="submit">Tiếp theo</button>
+    <div>
+        <a asp-action="Login" asp-controller="Account">Quay lại đăng nhập</a>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+{
+    <p style="color: red;">@ViewData["ErrorMessage"]</p>
+}

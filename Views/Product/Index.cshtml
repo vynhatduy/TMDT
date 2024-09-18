@@ -1,0 +1,105 @@
+﻿@model List<TMDT.Models.Response.User.UserProductModel>
+<h2>Danh sách sản phẩm</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div>
+                <h4>Lọc tìm kiếm</h4>
+                <form id="filterForm" method="get">
+                    <div class="form-group">
+                        <label for="sortBy">Sắp xếp theo:</label>
+                        <select id="sortBy" name="sortBy" class="form-control">
+                            <option value="name_asc">Tên A-Z</option>
+                            <option value="name_desc">Tên Z-A</option>
+                            <option value="price_desc">Giá từ cao đến thấp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Danh mục:</label>
+                        <select id="category" name="category" class="form-control">
+                            <option value="">Tất cả danh mục</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.IDLoai">@category.TenLoai</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Loại:</label>
+                        <select id="type" name="type" class="form-control">
+                            <option value="">Tất cả loại</option>
+                            @if (ViewBag.Types != null)
+                            {
+                                foreach (var type in ViewBag.Types)
+                                {
+                                    <option value="@type.IDLoai">@type.TenLoai</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Áp dụng</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-8">
+            @if (Model != null && Model.Any())
+            {
+                <div id="productContainer">
+                    @foreach (var item in Model)
+                    {
+                        <a href="@Url.Action("Detail", "Product", new { id = item.IDSanPham })">
+                            <div class="card">
+                                <img src="@Url.Action("GetImage", "GetObj", new { imagePath = item.HinhAnh })" alt="@item.Ten" />
+                                <h4>@item.Ten</h4>
+                                <span>@item.Gia.ToString("N0") VND</span>
+                                <p>@item.SoSao Sao</p>
+                            </div>
+                        </a>
+                    }
+                </div>
+
+                <button id="loadMoreButton" class="btn btn-primary">Tải thêm sản phẩm</button>
+            }
+            else
+            {
+                <p>Hiện tại chưa có sản phẩm nào</p>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var visibleCount = 30; // Số lượng sản phẩm hiện tại
+        var loading = false; // Trạng thái tải sản phẩm
+
+        $('#loadMoreButton').click(function () {
+            if (loading) return; // Nếu đang tải thì không thực hiện gì
+
+            loading = true;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadMoreProduct", "Product")',
+                data: {
+                    visibleCount: visibleCount,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Gửi AntiForgeryToken
+                },
+                success: function (data) {
+                    $('#productContainer').append(data); // Thêm sản phẩm mới vào container
+                    visibleCount += 20; // Cập nhật số lượng sản phẩm đã tải
+                    loading = false; // Kết thúc trạng thái tải
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải thêm sản phẩm.');
+                    loading = false;
+                }
+            });
+        });
+    });
+</script>

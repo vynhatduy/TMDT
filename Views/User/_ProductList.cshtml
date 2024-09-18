@@ -1,0 +1,22 @@
+﻿@model TMDT.Models.Response.User.UserHomePageModel
+
+@if (Model?.Products != null && Model.Products.Any())
+{
+    <ul>
+        @foreach (var item in Model.Products)
+        {
+            <li>
+                <div>
+                    <img src="@Url.Action("GetImage", "GetObj", new { imagePath = item.HinhAnh })" alt="@item.Ten" />
+                    <h5>@item.Ten</h5>
+                    <span>@item.Gia.ToString("N0") VND</span>
+                    <span>@item.SoSao Sao</span>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Hiện chưa có sản phẩm nào</p>
+}

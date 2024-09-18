@@ -1,0 +1,13 @@
+﻿@model List<TMDT.Models.Response.User.UserProductModel>
+
+@foreach (var item in Model)
+{
+    <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.IDSanPham">
+        <div class="card">
+            <img src="@Url.Action("GetImage", "GetObj", new { imagePath = item.HinhAnh })" alt="@item.Ten" style="width: 300px; height: auto;" />
+            <h4>@item.Ten</h4>
+            <span>@item.Gia.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</span>
+            <p>@item.SoSao Sao</p>
+        </div>
+    </a>
+}
