@@ -19,6 +19,10 @@ public partial class Shop
 
     public DateOnly? CreateDate { get; set; }
 
+    public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
+
+    public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
+
     public virtual ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
 
     public virtual Account? UidNavigation { get; set; }

@@ -21,6 +21,8 @@ public partial class Account
 
     public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();
 
+    public virtual ICollection<GioHang> GioHangs { get; set; } = new List<GioHang>();
+
     public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 
     public virtual Role? Role { get; set; }

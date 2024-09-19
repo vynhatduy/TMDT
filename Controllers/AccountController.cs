@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Win32;
 using TMDT.Helpers;
 using TMDT.Models;
 using TMDT.Models.Response.User;
@@ -14,7 +13,7 @@ namespace TMDT.Controllers
         // Sử dụng Dependency Injection để lấy DbContext
         public AccountController(TMDTContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         // GET: Account/Index
@@ -387,7 +386,86 @@ namespace TMDT.Controllers
             {
                 return RedirectToAction("Login");
             }
-            return View();
+            var ds = new List<UserOrderHistory>();
+            try
+            {
+                ds = _context.HoaDons.Where(x => x.Uid.ToString() == UID.ToString()).Select(item => new UserOrderHistory
+                {
+                    IDHoaDon = item.IdhoaDon,
+                    IDShop = (int)item.Idshop,
+                    IDVoucher = item.Idvouchers,
+                    NgayTao = (DateTime)item.NgayTao,
+                    ThanhTien = (double)item.ThanhTien,
+                    TrangThai = item.TrangThai,
+                    TenShop = _context.Shops.FirstOrDefault(x => x.Idshop == item.Idshop).TenShop.ToString(),
+                    TenVoucher = _context.Vouchers.FirstOrDefault(x => x.Idvouchers == item.Idvouchers).Ten.ToString()
+                }).ToList();
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+            }
+            return View(ds);
+        }
+        public List<UserOrderDetailHistory> GetListOrderDetailHistory(string id)
+        {
+            var ds = new List<UserOrderDetailHistory>();
+            try
+            {
+                var dsItem = (from item in _context.CthoaDons
+                              join sp in _context.SanPhams on item.IdsanPham equals sp.IdsanPham
+                              where item.IdhoaDon == id
+                              select new
+                              {
+                                  item.IdhoaDon,
+                                  item.IdsanPham,
+                                  item.IdsanPhamNavigation.Ten,
+                                  item.IdsanPhamNavigation.MoTa,
+                                  item.IdsanPhamNavigation.HinhAnh,
+                                  item.SoLuong,
+                                  item.DonGia
+                              }).ToList();
+                var groups = dsItem.GroupBy(x => x.IdhoaDon);
+                foreach (var item in groups)
+                {
+                    var orderDetail = new UserOrderDetailHistory
+                    {
+                        IDHoaDon = item.Key,
+                        DSSanPham = item.Select(x => new SanPham
+                        {
+                            IdsanPham = x.IdsanPham,
+                            Ten = x.Ten,
+                            MoTa = x.MoTa,
+                            HinhAnh = x.HinhAnh,
+                            SoLuong = x.SoLuong,
+                            GiaBan = (double)x.DonGia
+                        }).ToList()
+                    };
+                    ds.Add(orderDetail);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+            }
+            return ds;
+        }
+        public IActionResult OrderDetail(string id)
+        {
+            var ds = new List<UserOrderDetailHistory>();
+            try
+            {
+                ds = _context.CthoaDons.Where(x => x.IdhoaDon == id).Select(x => new UserOrderDetailHistory
+                {
+                    IDHoaDon = x.IdhoaDon,
+                    DonGia = (double)x.DonGia,
+                }).ToList();
+            }
+            catch(Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+            }
+            return View(ds);
         }
     }
 }

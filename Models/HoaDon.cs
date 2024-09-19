@@ -9,7 +9,7 @@ public partial class HoaDon
 
     public Guid? Uid { get; set; }
 
-    public DateOnly? NgayTao { get; set; }
+    public DateTime? NgayTao { get; set; }
 
     public string? TrangThai { get; set; }
 
@@ -17,7 +17,11 @@ public partial class HoaDon
 
     public string? Idvouchers { get; set; }
 
+    public int? Idshop { get; set; }
+
     public virtual ICollection<CthoaDon> CthoaDons { get; set; } = new List<CthoaDon>();
+
+    public virtual Shop? IdshopNavigation { get; set; }
 
     public virtual Voucher? IdvouchersNavigation { get; set; }
 

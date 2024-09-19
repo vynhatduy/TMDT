@@ -19,11 +19,15 @@ public partial class TMDTContext : DbContext
 
     public virtual DbSet<Banner> Banners { get; set; }
 
+    public virtual DbSet<ChiTietGioHang> ChiTietGioHangs { get; set; }
+
     public virtual DbSet<CthoaDon> CthoaDons { get; set; }
 
     public virtual DbSet<DanhGium> DanhGia { get; set; }
 
     public virtual DbSet<DanhMuc> DanhMucs { get; set; }
+
+    public virtual DbSet<GioHang> GioHangs { get; set; }
 
     public virtual DbSet<HoaDon> HoaDons { get; set; }
 
@@ -43,7 +47,7 @@ public partial class TMDTContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=VYNHATDUY;Initial Catalog=TMDT;User ID=sa; Password=sa;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=VYNHATDUY;Initial Catalog=TMDT;User ID=sa;Password=sa;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,6 +85,37 @@ public partial class TMDTContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("IDBanner");
             entity.Property(e => e.Link).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<ChiTietGioHang>(entity =>
+        {
+            entity.HasKey(e => e.IdchiTiet).HasName("PK__ChiTietG__EF38009B15A91466");
+
+            entity.ToTable("ChiTietGioHang");
+
+            entity.Property(e => e.IdchiTiet).HasColumnName("IDChiTiet");
+            entity.Property(e => e.Gia).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.IdgioHang).HasColumnName("IDGioHang");
+            entity.Property(e => e.IdsanPham)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("IDSanPham");
+            entity.Property(e => e.Idshop).HasColumnName("IDShop");
+            entity.Property(e => e.ThanhTien)
+                .HasComputedColumnSql("([SoLuong]*[Gia])", false)
+                .HasColumnType("decimal(29, 2)");
+
+            entity.HasOne(d => d.IdgioHangNavigation).WithMany(p => p.ChiTietGioHangs)
+                .HasForeignKey(d => d.IdgioHang)
+                .HasConstraintName("FK__ChiTietGi__IDGio__75A278F5");
+
+            entity.HasOne(d => d.IdsanPhamNavigation).WithMany(p => p.ChiTietGioHangs)
+                .HasForeignKey(d => d.IdsanPham)
+                .HasConstraintName("FK__ChiTietGi__IDSan__76969D2E");
+
+            entity.HasOne(d => d.IdshopNavigation).WithMany(p => p.ChiTietGioHangs)
+                .HasForeignKey(d => d.Idshop)
+                .HasConstraintName("FK_ChiTietGioHang_Shop");
         });
 
         modelBuilder.Entity<CthoaDon>(entity =>
@@ -146,6 +181,23 @@ public partial class TMDTContext : DbContext
             entity.Property(e => e.Ten).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<GioHang>(entity =>
+        {
+            entity.HasKey(e => e.IdgioHang).HasName("PK__GioHang__0B2CDDAE57DE9925");
+
+            entity.ToTable("GioHang");
+
+            entity.Property(e => e.IdgioHang).HasColumnName("IDGioHang");
+            entity.Property(e => e.NgayTao)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Uid).HasColumnName("UID");
+
+            entity.HasOne(d => d.UidNavigation).WithMany(p => p.GioHangs)
+                .HasForeignKey(d => d.Uid)
+                .HasConstraintName("FK__GioHang__UID__71D1E811");
+        });
+
         modelBuilder.Entity<HoaDon>(entity =>
         {
             entity.HasKey(e => e.IdhoaDon).HasName("PK__HoaDon__5B896F49D7290190");
@@ -156,6 +208,7 @@ public partial class TMDTContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("IDHoaDon");
+            entity.Property(e => e.Idshop).HasColumnName("IDShop");
             entity.Property(e => e.Idvouchers)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -163,6 +216,10 @@ public partial class TMDTContext : DbContext
             entity.Property(e => e.ThanhTien).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TrangThai).HasMaxLength(50);
             entity.Property(e => e.Uid).HasColumnName("UID");
+
+            entity.HasOne(d => d.IdshopNavigation).WithMany(p => p.HoaDons)
+                .HasForeignKey(d => d.Idshop)
+                .HasConstraintName("FK_HoaDon_Shop");
 
             entity.HasOne(d => d.IdvouchersNavigation).WithMany(p => p.HoaDons)
                 .HasForeignKey(d => d.Idvouchers)

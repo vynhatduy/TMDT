@@ -91,7 +91,8 @@ CREATE TABLE HoaDon (
     NgayTao DATE,
     TrangThai NVARCHAR(50),
     ThanhTien DECIMAL(18, 2),
-    IDVouchers VARCHAR(50) FOREIGN KEY REFERENCES Vouchers(IDVouchers)
+    IDVouchers VARCHAR(50) FOREIGN KEY REFERENCES Vouchers(IDVouchers),
+	IDShop INT FOREIGN KEY REFERENCES Shops(IDShop),
 );
 
 -- 10. Bảng CTHoaDon
@@ -139,11 +140,27 @@ CREATE TABLE MyVouchers (
 
 -- 15. Bảng Banner
 CREATE TABLE Banner(
-    IDBanner INT PRIMARY KEY,
+    IDBanner INT PRIMARY KEY IDENTITY(1,1),
     Link NVARCHAR(100),
     HinhAnh NVARCHAR(MAX), -- Thay đổi độ dài thành MAX
     TrangThai BIT
 );
+CREATE TABLE GioHang (
+    IDGioHang INT PRIMARY KEY IDENTITY(1,1),
+    UID UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Account(UID),
+    NgayTao DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+CREATE TABLE ChiTietGioHang (
+    IDChiTiet INT PRIMARY KEY IDENTITY(1,1),
+    IDGioHang INT FOREIGN KEY REFERENCES GioHang(IDGioHang),
+    IDSanPham VARCHAR(50) FOREIGN KEY REFERENCES SanPham(IDSanPham),
+    SoLuong INT NOT NULL,
+    Gia DECIMAL(18, 2) NOT NULL,
+    ThanhTien AS (SoLuong * Gia),
+	IDShop INT FOREIGN KEY REFERENCES Shops(IDShop),
+);
+
 
 -- Chèn dữ liệu vào bảng Role
 INSERT INTO Role (RoleId, RoleName) VALUES (0, 'Admin');

@@ -19,11 +19,13 @@ public partial class SanPham
 
     public int? Idshop { get; set; }
 
-    public decimal? GiaBan { get; set; }
+    public double? GiaBan { get; set; }
 
     public int? SoLuong { get; set; }
 
     public int? DaBan { get; set; }
+
+    public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
 
     public virtual ICollection<CthoaDon> CthoaDons { get; set; } = new List<CthoaDon>();
 

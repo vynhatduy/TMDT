@@ -1,0 +1,25 @@
+﻿@model List<TMDT.Models.Response.User.UserCartShopGroupModel>
+
+<div>
+    @if (Model!= null && Model.Any())
+    {
+        foreach (var shopGroup in Model)
+        {
+            <div class="shop-group">
+                <h3>@shopGroup.Ten</h3>
+                <ul>
+                    @foreach (var product in shopGroup.ds)
+                    {
+                        <li>
+                            Tên sản phẩm: @product.IDSanPham, Số lượng: @product.SoLuong, Giá: @product.Gia
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <p>không có dữ liệu nào trong giỏ hàng</p>
+    }
+</div>

@@ -8,6 +8,7 @@ namespace TMDT.Controllers
     public class UserController : Controller
     {
         private TMDTContext _context = new TMDTContext();
+        
 
         // GET: UserHomePage/Index
         [HttpGet]
@@ -15,24 +16,46 @@ namespace TMDT.Controllers
         {
             var model = new UserHomePageModel
             {
-                Products = GetProducts(8),
+                Products = GetProducts(1),
                 Banners = GetBanners(),
-                Categories = GetCategories()
+                Categories = GetCategories(),
+                CountOfCart=GetCountOfCart()
             };
             return View(model);
         }
+        //[HttpPost]
+        //public ActionResult LoadMoreProduct(int currentCount)
+        //{
+        //    int currentVisibleCount = int.Parse(Request.Form["VisibleCount"]);
+        //    currentCount += 20;
+        //    var model = new UserHomePageModel
+        //    {
+        //        Products = GetProducts(currentVisibleCount),
+        //        VisibleCount = currentVisibleCount
+        //    };
+        //    return PartialView("_ProductList", model);
+        //}
+
         [HttpPost]
-        public ActionResult LoadMoreProduct()
+        public ActionResult LoadMoreProduct(int currentCount)
         {
-            int currentVisibleCount = int.Parse(Request.Form["VisibleCount"]);
-            currentVisibleCount += 20;
             var model = new UserHomePageModel
             {
-                Products = GetProducts(currentVisibleCount),
-                VisibleCount = currentVisibleCount
+                Products = GetProducts(currentCount + 20) // Cộng thêm 20 sản phẩm
             };
             return PartialView("_ProductList", model);
         }
+        //[HttpPost]
+        //public ActionResult FilterByCategory(int? typeId)
+        //{
+        //    var products = GetProductsByCategory(typeId);
+        //    var model = new UserHomePageModel
+        //    {
+        //        Products = products
+        //    };
+        //    return PartialView("_ProductList", model);
+        //}
+
         [HttpPost]
         public ActionResult FilterByCategory(int? typeId)
         {
@@ -88,6 +111,36 @@ namespace TMDT.Controllers
                 HinhAnh = x.HinhAnh
             }).ToList();
             return ds;
+        }
+        private int GetCountOfCart()
+        {
+            try
+            {
+                var UID = HttpContext.Session.GetString("UID");
+                if (UID == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    var user = _context.GioHangs.FirstOrDefault(x => x.Uid.ToString() == UID.ToString());
+                    if (user == null)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        var count = 0;
+                        count = _context.ChiTietGioHangs.Where(x => x.IdgioHang == user.IdgioHang).Sum(x => x.SoLuong);
+                        return count;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+            }
         }
     }
 }

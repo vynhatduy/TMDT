@@ -69,12 +69,36 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ categoryId: selectedCategory })
+                body: JSON.stringify({ typeId: selectedCategory })
             })
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('product-list').innerHTML = html;
-            });
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('product-list').innerHTML = html;
+
+                    // Sau khi lọc, cập nhật lại nút tải thêm sản phẩm
+                    document.getElementById('load-more').setAttribute('data-visible-count', '20');
+                });
+        });
+
+        document.getElementById('load-more').addEventListener('click', function () {
+            var currentVisibleCount = this.getAttribute('data-visible-count');
+
+            fetch('@Url.Action("LoadMoreProduct", "UserHomePage")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ currentCount: currentVisibleCount })
+            })
+                .then(response => response.text())
+                .then(html => {
+                    // Cập nhật lại danh sách sản phẩm
+                    document.getElementById('product-list').innerHTML = html;
+
+                    // Cập nhật số lượng sản phẩm đã hiển thị
+                    var newVisibleCount = parseInt(currentVisibleCount) + 20;
+                    this.setAttribute('data-visible-count', newVisibleCount);
+                });
         });
     </script>
 }

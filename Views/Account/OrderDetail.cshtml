@@ -1,0 +1,41 @@
+﻿@model List<TMDT.Models.Response.User.UserOrderDetailHistory>
+<h2>Chi tiết sản phẩm</h2>
+
+<div class="container">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var order in Model)
+        {
+            <h3>Hóa đơn: @order.IDHoaDon</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hình Ảnh</th>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Mô Tả</th>
+                        <th>Số Lượng</th>
+                        <th>Đơn Giá</th>
+                        <th>Thành Tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in order.DSSanPham)
+                    {
+                        <tr>
+                            <td><img src="@item.HinhAnh" alt="@item.Ten" style="width: 100px; height: 100px;" /></td>
+                            <td>@item.Ten</td>
+                            <td>@item.MoTa</td>
+                            <td>@item.SoLuong</td>
+                            <td>@item.GiaBan</td>
+                            <td>@(item.SoLuong * item.GiaBan)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+    }
+    else
+    {
+        <p>Không có chi tiết hóa đơn</p>
+    }
+</div>

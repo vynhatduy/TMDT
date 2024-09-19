@@ -1,7 +1,28 @@
-﻿@model TMDT.Models.Response.User.UserOrderHistoryResponse
+﻿@model List<TMDT.Models.Response.User.UserOrderHistory>
 
 @{
     ViewBag.Title = "Lịch sử đặt hàng";
 }
 
 <h2>Lịch sử đặt hàng</h2>
+<div class="container">
+    @if (Model != null&&Model.Any())
+    {
+        foreach(var item in Model)
+        {
+            <a href="@Url.Action("OrderDetail","Account",item.IDHoaDon)">
+                <span>Mã hóa đơn: @item.IDHoaDon</span>
+                <span>Ngày tạo hóa đơn: @item.NgayTao</span>
+                <span>Tên shop: @item.TenShop</span>
+                <span>Mã giảm giá áp dụng: @item.TenVoucher</span>
+                <span>Thành tiền: @item.ThanhTien</span>
+                <span>Trạng thái: @item.TrangThai</span>
+            </a>
+        }
+    }
+    else
+    {
+        <p>Không có lịch sử đặt hàng</p>
+    }
+
+</div>
