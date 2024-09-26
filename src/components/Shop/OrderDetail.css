@@ -1,0 +1,84 @@
+/* OrderDetail.css */
+.order-detail-layout {
+    display: flex;
+    margin: 20px;
+  }
+  
+  .order-detail-left {
+    flex: 8;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .order-detail-right {
+    flex: 4;
+    padding: 20px;
+  }
+  
+  .order-info,
+  .product-list,
+  .shipping-info,
+  .total-value,
+  .buyer-info,
+  .contact-info,
+  .shop-address,
+  .delivery-address {
+    margin-bottom: 20px;
+  }
+  
+  h2, h3, h4 {
+    color: #333;
+  }
+  
+  .product-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .product-list th, .product-list td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .product-list img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  .product-list tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .total-value h4 {
+    color: #e74c3c; /* Màu đỏ cho tổng giá trị */
+  }
+  
+  .shipping-info,
+  .total-value {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  hr {
+    border: 1px solid #ddd;
+  }
+  
+  .delivery-address,
+  .shop-address,
+  .buyer-info,
+  .contact-info {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+  
+  .buyer-info p,
+  .contact-info p,
+  .shop-address p,
+  .delivery-address p {
+    margin: 5px 0;
+  }
+  

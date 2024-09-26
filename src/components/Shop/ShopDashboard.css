@@ -1,0 +1,198 @@
+.shop-dashboard {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sales-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .sales-overview h2 {
+    margin: 0;
+  }
+  
+  .date-filter {
+    position: relative;
+  }
+  
+  .date-filter input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 250px; /* Chiều rộng cố định */
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .date-filter input:focus {
+    border-color: #80bdff;
+  }
+  
+  .filter-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .filter-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .date-picker {
+    position: absolute;
+    top: 40px; /* Đặt ngay dưới ô chọn ngày */
+    left: 0;
+    z-index: 10; /* Đảm bảo bảng chọn nằm trên các phần tử khác */
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .summary-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    flex: 1;
+    margin-right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card:last-child {
+    margin-right: 0; /* Không có margin cho card cuối cùng */
+  }
+  
+  .charts, .tables {
+    margin-bottom: 20px;
+  }
+  
+  .tables {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .tables > div {
+    flex: 1;
+    margin-right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tables > div:last-child {
+    margin-right: 0; /* Không có margin cho bảng cuối cùng */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  th {
+    background-color: #f1f1f1;
+  }
+  
+  img {
+    max-width: 50px; /* Giới hạn kích thước hình ảnh trong bảng sản phẩm */
+  }
+  .date-filter {
+    position: relative; /* Để bảng chọn ngày có thể định vị bên dưới ô nhập */
+  }
+  
+  .date-picker {
+    display: none; /* Ẩn bảng chọn ngày theo mặc định */
+    position: absolute;
+    top: 40px; /* Đặt bảng ngay bên dưới ô nhập */
+    left: 0; /* Căn trái */
+    z-index: 10; /* Đảm bảo bảng chọn nằm trên các phần tử khác */
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .date-picker.active {
+    display: block; /* Hiện thị bảng chọn khi nó có class 'active' */
+  }
+  
+  .date-picker input {
+    width: calc(100% - 20px); /* Chiều rộng ô nhập */
+    margin-bottom: 10px; /* Khoảng cách giữa các ô nhập */
+  }
+  
+  .date-picker button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%; /* Chiều rộng nút */
+  }
+  
+  .date-picker button:hover {
+    background-color: #0056b3; /* Hiệu ứng hover */
+  }
+  .charts {
+    display: flex; /* Sử dụng flexbox để sắp xếp theo hàng */
+    justify-content: space-between; /* Đặt khoảng cách giữa các biểu đồ */
+    margin-bottom: 30px; /* Thêm khoảng cách 30px dưới biểu đồ */
+  }
+  
+  .chart-container {
+    display: flex; /* Sử dụng flexbox cho các biểu đồ bên trong */
+    flex: 1; /* Chiếm 100% chiều rộng của container */
+    justify-content: space-around; /* Đặt khoảng cách giữa các biểu đồ */
+  }
+  .charts {
+    display: flex; /* Sử dụng flexbox để sắp xếp theo hàng */
+    justify-content: space-around; /* Đặt khoảng cách đều giữa các phần tử */
+    margin-bottom: 30px; /* Thêm khoảng cách 30px dưới biểu đồ */
+  }
+  
+  .left, .right {
+    width: 40%; /* Chiếm 40% chiều rộng của container */
+    display: flex; /* Sử dụng flexbox cho các div chứa biểu đồ */
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    align-items: center; /* Căn giữa các phần tử trong div */
+  }
+  
+  .bar-chart, .pie-chart {
+    width: 100%; /* Đặt chiều rộng cho biểu đồ là 100% của div chứa */
+    height: 400px; /* Chiều cao cố định cho biểu đồ */
+    border: 1px solid #9d9d9d; /* Viền màu xanh */
+    border-radius: 8px; /* Bo tròn các góc viền */
+    padding: 10px; /* Khoảng cách bên trong giữa viền và nội dung biểu đồ */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho viền */
+    display: flex; /* Sử dụng flexbox để căn chỉnh biểu đồ */
+    justify-content: center; /* Căn giữa biểu đồ theo chiều ngang */
+    align-items: center; /* Căn giữa biểu đồ theo chiều dọc */
+  }
+  h3 {
+    margin-bottom: 10px; /* Khoảng cách giữa tiêu đề và biểu đồ */
+    text-align: center; /* Căn giữa tiêu đề */
+  }

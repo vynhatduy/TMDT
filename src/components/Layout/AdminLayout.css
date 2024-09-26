@@ -1,0 +1,164 @@
+.admin-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar (cột menu chính) */
+.admin-sidebar {
+  max-width: 120px; /* Chiều rộng tối đa là 120px */
+  width: 120px; /* Bắt đầu với chiều rộng 120px */
+  background-color: #333;
+  color: white;
+  transition: width 0.3s;
+  display: flex;
+  flex-direction: column; /* Sắp xếp theo cột */
+  align-items: center; /* Căn giữa các icon theo chiều ngang */
+}
+
+.admin-layout.collapsed .admin-sidebar {
+  width: 60px; /* Thu hẹp cột menu khi chỉ hiển thị icon */
+}
+
+/* Định dạng các mục trong sidebar */
+.admin-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  text-align: center; /* Căn giữa văn bản */
+}
+
+.admin-sidebar li {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Căn giữa icon */
+  text-align: center;
+  padding: 10px 0;
+  transition: all 0.3s;
+}
+
+.admin-sidebar li span {
+  margin-left: 10px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.admin-layout.collapsed .admin-sidebar li span {
+  opacity: 0; /* Ẩn chữ khi menu bị thu gọn */
+  display: none;
+}
+
+.admin-content {
+  flex-grow: 1;
+  background-color: #f1f1f1;
+  transition: margin-left 0.3s;
+  width: calc(100% - 120px); /* Cột nội dung chính chiếm phần còn lại */
+}
+
+.admin-layout.collapsed .admin-content {
+  width: calc(100% - 60px); /* Điều chỉnh chiều rộng nội dung chính khi menu thu gọn */
+}
+
+/* Navbar */
+.admin-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Phần bên trái của Navbar */
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: width 0.3s;
+}
+
+.search-box input {
+  padding: 5px 10px;
+  width: 0;
+  opacity: 0;
+  transition: width 0.3s, opacity 0.3s;
+}
+
+.search-box.expanded input {
+  width: 200px; /* Chiều rộng khi mở rộng */
+  opacity: 1;
+}
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Phần bên phải của Navbar */
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-icon, .user-icon {
+  position: relative;
+  margin-left: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Dropdown cho thông báo và người dùng */
+.notification-dropdown, .user-dropdown {
+  position: absolute;
+  top: 40px; /* Điều chỉnh vị trí bên dưới icon */
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  width: 200px;
+  z-index: 100;
+}
+
+.notification-dropdown ul, .user-dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-dropdown li, .user-dropdown li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+}
+
+.notification-dropdown li:last-child, .user-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.user-dropdown li:hover, .notification-dropdown li:hover {
+  background-color: #f1f1f1; /* Hiệu ứng hover */
+}
+/* Định dạng cho link trong sidebar */
+.admin-sidebar a {
+  color: white; /* Màu sắc mặc định */
+  text-decoration: none; /* Xóa gạch chân */
+}
+
+.admin-sidebar a.active {
+  background-color: #007bff; /* Màu nền nổi bật cho nút đang chọn */
+  border-radius: 5px; /* Bo góc cho nút */
+}

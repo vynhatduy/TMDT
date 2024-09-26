@@ -1,0 +1,49 @@
+.orders {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .actions button {
+    margin-right: 10px;
+  }
+  
+  .invoice-table {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    cursor: pointer;
+    background-color: #f2f2f2;
+  }
+  
+  .view-icon, .delete-icon {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .delete-icon:hover {
+    color: red;
+  }
+  
